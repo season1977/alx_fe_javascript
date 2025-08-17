@@ -1,67 +1,84 @@
-// Load saved quotes or use defaults
-let quotes = JSON.parse(localStorage.getItem("quotes")) || [
-  { text: "The best way to get started is to quit talking and begin doing.", category: "Motivation" },
-  { text: "Don’t let yesterday take up too much of today.", category: "Wisdom" },
-  { text: "Success is not final, failure is not fatal: It is the courage to continue that counts.", category: "Inspiration" }
+// ------------------------------
+// Quotes Storage Setup
+// ------------------------------
+let quotes = [
+  { text: "The best way to predict the future is to invent it.", category: "Inspiration" },
+  { text: "Life is 10% what happens to us and 90% how we react to it.", category: "Motivation" },
 ];
 
-// Select DOM elements
-const quoteDisplay = document.getElementById("quoteDisplay");
-const newQuoteBtn = document.getElementById("newQuote");
-const quoteForm = document.getElementById("quoteForm");
-const newQuoteText = document.getElementById("newQuoteText");
-const newQuoteCategory = document.getElementById("newQuoteCategory");
-const message = document.getElementById("message");
+// Load quotes from localStorage if in browser
+if (typeof localStorage !== "undefined") {
+  const storedQuotes = JSON.parse(localStorage.getItem("quotes")) || [];
+  if (storedQuotes.length > 0) {
+    quotes = storedQuotes;
+  }
+}
 
-// Show random quote
-function showRandomQuote() {
+// ------------------------------
+// DOM References (only in browser)
+// ------------------------------
+let quoteDisplay, quoteCategory, newQuoteText, newQuoteCategory, addQuoteBtn, newQuoteBtn;
+
+if (typeof document !== "undefined") {
+  quoteDisplay = document.getElementById("quoteDisplay");
+  quoteCategory = document.getElementById("quoteCategory");
+  newQuoteText = document.getElementById("newQuoteText");
+  newQuoteCategory = document.getElementById("newQuoteCategory");
+  addQuoteBtn = document.getElementById("addQuoteBtn");
+  newQuoteBtn = document.getElementById("newQuoteBtn");
+}
+
+// ------------------------------
+// Functions
+// ------------------------------
+function displayRandomQuote() {
+  if (!quotes.length) return null;
+
   const randomIndex = Math.floor(Math.random() * quotes.length);
-  const quote = quotes[randomIndex];
-  quoteDisplay.innerHTML = `"${quote.text}" <br><em>— ${quote.category}</em>`;
-}
+  const randomQuote = quotes[randomIndex];
 
-// Add new quote
-function addQuote(e) {
-  e.preventDefault(); // prevent page reload
-
-  const text = newQuoteText.value.trim();
-  const category = newQuoteCategory.value.trim();
-
-  if (!text || !category) {
-    showMessage("Please enter both a quote and a category!", "error");
-    return;
+  if (typeof document !== "undefined") {
+    quoteDisplay.textContent = randomQuote.text;
+    quoteCategory.textContent = `Category: ${randomQuote.category}`;
   }
 
-  // Prevent duplicate quotes
-  if (quotes.some(q => q.text.toLowerCase() === text.toLowerCase())) {
-    showMessage("⚠️ This quote already exists!", "error");
-    return;
+  return randomQuote; // usable in Node.js
+}
+
+function addQuote(text, category) {
+  if (!text || !category) return null;
+
+  const newQuote = { text, category };
+  quotes.push(newQuote);
+
+  if (typeof localStorage !== "undefined") {
+    localStorage.setItem("quotes", JSON.stringify(quotes));
   }
 
-  // Add to quotes array
-  quotes.push({ text, category });
+  if (typeof document !== "undefined") {
+    quoteDisplay.textContent = newQuote.text;
+    quoteCategory.textContent = `Category: ${newQuote.category}`;
+  }
 
-  // Save to localStorage
-  localStorage.setItem("quotes", JSON.stringify(quotes));
-
-  // Update display
-  quoteDisplay.innerHTML = `✅ New quote added: "${text}" <br><em>— ${category}</em>`;
-
-  // Show success message
-  showMessage("Quote added successfully!", "success");
-
-  // Clear inputs
-  newQuoteText.value = "";
-  newQuoteCategory.value = "";
+  return newQuote; // usable in Node.js
 }
 
-// Show feedback message
-function showMessage(msg, type) {
-  message.textContent = msg;
-  message.className = type;
-  setTimeout(() => { message.textContent = ""; }, 3000);
+// ------------------------------
+// Event Listeners (only in browser)
+// ------------------------------
+if (typeof document !== "undefined") {
+  newQuoteBtn.addEventListener("click", displayRandomQuote);
+
+  addQuoteBtn.addEventListener("click", () => {
+    addQuote(newQuoteText.value, newQuoteCategory.value);
+    newQuoteText.value = "";
+    newQuoteCategory.value = "";
+  });
 }
 
-// Event listeners
-newQuoteBtn.addEventListener("click", showRandomQuote);
-quoteForm.addEventListener("submit", addQuote);
+// ------------------------------
+// Export for Node.js testing
+// ------------------------------
+if (typeof module !== "undefined") {
+  module.exports = { displayRandomQuote, addQuote, quotes };
+}
