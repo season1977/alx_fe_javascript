@@ -1,0 +1,40 @@
+/* style.css */
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 20px;
+  background: #f4f4f9;
+}
+
+h1 {
+  color: #333;
+}
+
+#quoteDisplay {
+  margin: 20px auto;
+  padding: 15px;
+  max-width: 500px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  font-size: 1.2em;
+}
+
+button {
+  margin: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#newQuote { background: #007BFF; color: white; }
+#addQuoteBtn { background: #28A745; color: white; }
+
+input {
+  margin: 5px;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}

@@ -11,9 +11,7 @@
       padding: 20px;
       background: #f4f4f9;
     }
-    h1 {
-      color: #333;
-    }
+    h1 { color: #333; }
     #quoteDisplay {
       margin: 20px auto;
       padding: 15px;
@@ -39,6 +37,13 @@
       border-radius: 5px;
       border: 1px solid #ccc;
     }
+    /* Feedback message */
+    #message {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    .success { color: green; }
+    .error { color: red; }
   </style>
 </head>
 <body>
@@ -49,11 +54,12 @@
   <button id="newQuote">Show New Quote</button>
 
   <!-- Add new quote -->
-  <div>
+  <form id="quoteForm">
     <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
     <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
-    <button id="addQuoteBtn">Add Quote</button>
-  </div>
+    <button id="addQuoteBtn" type="submit">Add Quote</button>
+  </form>
+  <div id="message"></div>
 
   <script src="script.js"></script>
 </body>
