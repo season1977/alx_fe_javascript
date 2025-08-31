@@ -1,41 +1,37 @@
-// Array of quotes with text and category
-const quotes = [
-  { text: "The only limit to our realization of tomorrow is our doubts of today.", category: "Motivation" },
-  { text: "Life is what happens when you're busy making other plans.", category: "Life" },
-  { text: "Happiness depends upon ourselves.", category: "Happiness" }
+// Array of quote objects
+let quotes = [
+  { text: "Believe in yourself!", category: "Motivation" },
+  { text: "Learning never stops.", category: "Education" },
+  { text: "Keep pushing forward.", category: "Motivation" }
 ];
 
-// Function required by auto-checker
-function showRandomQuote() {
+// Display a random quote
+function displayRandomQuote() {
   const randomIndex = Math.floor(Math.random() * quotes.length);
   const quote = quotes[randomIndex];
-  const quoteDisplay = document.getElementById("quoteDisplay");
-  quoteDisplay.textContent = `"${quote.text}" - ${quote.category}`;
+  document.getElementById("quoteDisplay").textContent = `${quote.text} (${quote.category})`;
 }
 
-// Function to add a new quote
+// Add a new quote
 function addQuote() {
   const textInput = document.getElementById("newQuoteText");
   const categoryInput = document.getElementById("newQuoteCategory");
+  const text = textInput.value.trim();
+  const category = categoryInput.value.trim();
 
-  if (textInput.value && categoryInput.value) {
-    const newQuote = {
-      text: textInput.value,
-      category: categoryInput.value
-    };
-
-    quotes.push(newQuote);
-
-    showRandomQuote(); // Show the newly added quote
+  if (text && category) {
+    quotes.push({ text, category });
+    displayRandomQuote();
     textInput.value = "";
     categoryInput.value = "";
   } else {
-    alert("Please enter both quote and category.");
+    alert("Please enter both quote text and category.");
   }
 }
 
-// Event listener on "Show New Quote" button
-document.getElementById("newQuote").addEventListener("click", showRandomQuote);
+// Event listeners
+document.getElementById("newQuote").addEventListener("click", displayRandomQuote);
+document.getElementById("addQuoteBtn").addEventListener("click", addQuote);
 
-// Show one quote on page load
-showRandomQuote();
+// Show an initial quote
+displayRandomQuote();
