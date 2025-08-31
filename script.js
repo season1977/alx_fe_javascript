@@ -1,36 +1,41 @@
-// Array of quotes
+// Array of quotes with text and category
 const quotes = [
-  { text: "The best way to get started is to quit talking and begin doing.", category: "motivation" },
-  { text: "Life is what happens when you're busy making other plans.", category: "life" },
-  { text: "Do not let what you cannot do interfere with what you can do.", category: "inspiration" }
+  { text: "The only limit to our realization of tomorrow is our doubts of today.", category: "Motivation" },
+  { text: "Life is what happens when you're busy making other plans.", category: "Life" },
+  { text: "Happiness depends upon ourselves.", category: "Happiness" }
 ];
 
 // Function to display a random quote
 function displayRandomQuote() {
   const randomIndex = Math.floor(Math.random() * quotes.length);
+  const quote = quotes[randomIndex];
   const quoteDisplay = document.getElementById("quoteDisplay");
-  quoteDisplay.textContent = quotes[randomIndex].text;
+  quoteDisplay.textContent = `"${quote.text}" - ${quote.category}`;
 }
 
-// Function to add a new quote
+// Function to add a new quote dynamically
 function addQuote() {
   const textInput = document.getElementById("newQuoteText");
   const categoryInput = document.getElementById("newQuoteCategory");
 
   if (textInput.value && categoryInput.value) {
-    quotes.push({
+    const newQuote = {
       text: textInput.value,
       category: categoryInput.value
-    });
+    };
 
-    displayRandomQuote(); // Update display
+    quotes.push(newQuote);
+
+    displayRandomQuote(); // Show the newly added quote
     textInput.value = "";
     categoryInput.value = "";
+  } else {
+    alert("Please enter both quote and category.");
   }
 }
 
 // Event listener for "Show New Quote" button
 document.getElementById("newQuote").addEventListener("click", displayRandomQuote);
 
-// Display an initial quote when page loads
+// Show one quote by default on page load
 displayRandomQuote();
