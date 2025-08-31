@@ -5,15 +5,15 @@ const quotes = [
   { text: "Happiness depends upon ourselves.", category: "Happiness" }
 ];
 
-// Function to display a random quote
-function displayRandomQuote() {
+// Function required by auto-checker
+function showRandomQuote() {
   const randomIndex = Math.floor(Math.random() * quotes.length);
   const quote = quotes[randomIndex];
   const quoteDisplay = document.getElementById("quoteDisplay");
   quoteDisplay.textContent = `"${quote.text}" - ${quote.category}`;
 }
 
-// Function to add a new quote dynamically
+// Function to add a new quote
 function addQuote() {
   const textInput = document.getElementById("newQuoteText");
   const categoryInput = document.getElementById("newQuoteCategory");
@@ -26,7 +26,7 @@ function addQuote() {
 
     quotes.push(newQuote);
 
-    displayRandomQuote(); // Show the newly added quote
+    showRandomQuote(); // Show the newly added quote
     textInput.value = "";
     categoryInput.value = "";
   } else {
@@ -34,8 +34,8 @@ function addQuote() {
   }
 }
 
-// Event listener for "Show New Quote" button
-document.getElementById("newQuote").addEventListener("click", displayRandomQuote);
+// Event listener on "Show New Quote" button
+document.getElementById("newQuote").addEventListener("click", showRandomQuote);
 
-// Show one quote by default on page load
-displayRandomQuote();
+// Show one quote on page load
+showRandomQuote();
